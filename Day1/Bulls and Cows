@@ -1,0 +1,51 @@
+class Solution {
+    public String getHint(String secret, String guess) {
+        int bulls=0, cows=0;
+        int l=secret.length();
+        String res="";
+        
+        HashMap<Character, Integer> map = new HashMap<Character, Integer>();
+        // counting bulls
+        // modifying strings such that ek hi number ko bulls or cow dono me consider na kr lein
+        for(int i=0; i<l; i++)
+        {
+            if( secret.charAt(i) == guess.charAt(i) )
+            {
+                bulls++;
+                secret = secret.substring(0,i)+secret.substring(i+1);
+                guess = guess.substring(0,i)+ guess.substring(i+1);
+                l=secret.length();
+                i--;
+            }
+            else{
+                if(map.containsKey(secret.charAt(i)))
+                {
+                    map.put(secret.charAt(i), map.get(secret.charAt(i)) + 1);
+                }
+                else
+                {
+                    map.put(secret.charAt(i), 1);
+                }
+            }
+        }
+
+        String b = Integer.toString(bulls);
+
+
+        for(int i=0; i<l; i++)
+        {
+
+            if(map.containsKey(guess.charAt(i)) && map.get(guess.charAt(i))>0)
+            {
+                cows++;
+                map.put(guess.charAt(i), map.get(guess.charAt(i)) - 1);
+
+            }
+        }
+
+        String c = Integer.toString(cows);
+
+        res = b+"A"+c+"B";
+        return res;
+    }
+}
