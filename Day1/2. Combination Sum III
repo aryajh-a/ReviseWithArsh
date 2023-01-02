@@ -1,0 +1,38 @@
+class Solution {
+    public List<List<Integer>> combinationSum3(int k, int n) {
+        int sum=0;
+        List<List<Integer>> list = new ArrayList<List<Integer>>();
+        List<Integer> sub = new ArrayList<Integer>();
+
+        helper(1,9,k,n,sum,list,sub);
+        return list;
+    }
+
+    public void helper(int start, int end, int k, int n, int sum, List<List<Integer>> ans, List<Integer> sub){
+        if(k==0){
+            if(sum==n){
+                ans.add(new ArrayList(sub));
+                return;
+            }
+            return;
+        }
+
+        if(sum>n)   
+            return;
+
+        if(start>end)
+            return;
+
+            //include
+        sum+=start;
+        sub.add(start);
+        helper(start+1,end,k-1, n, sum,ans,sub);
+        
+        //exclude
+        sum-=start;
+        sub.remove(sub.size()-1);
+        helper(start+1,end,k, n, sum,ans,sub);
+        
+    }
+
+}
